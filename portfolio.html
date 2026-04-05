@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Name — FnB Consultant</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #FAF8F4;
+      --white: #FFFFFF;
+      --black: #111110;
+      --charcoal: #2E2E2C;
+      --gray: #7A7A76;
+      --light-gray: #E8E6E0;
+      --accent: #C8A96E;
+      --accent-light: #F5ECD9;
+      --green: #4A7C59;
+      --green-light: #E8F0EA;
+      --font-display: 'DM Serif Display', serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--cream);
+      color: var(--charcoal);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.25rem 5vw;
+      background: rgba(250,248,244,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--light-gray);
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      color: var(--black);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--gray);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--black); }
+    .nav-cta {
+      background: var(--black);
+      color: var(--white) !important;
+      padding: 0.55rem 1.25rem;
+      border-radius: 100px;
+    }
+    .nav-cta:hover { background: var(--green); color: var(--white) !important; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 8rem 5vw 5rem;
+      gap: 4rem;
+    }
+    .hero-text { }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--green-light);
+      color: var(--green);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 1.75rem;
+    }
+    .hero-badge::before { content: '●'; font-size: 0.5rem; }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 5.5vw, 5.5rem);
+      line-height: 1.08;
+      color: var(--black);
+      margin-bottom: 1.5rem;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero-desc {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: var(--gray);
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      border-radius: 100px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.25s;
+      cursor: pointer;
+      border: none;
+      font-family: var(--font-body);
+    }
+    .btn-primary { background: var(--black); color: var(--white); }
+    .btn-primary:hover { background: var(--green); transform: translateY(-2px); }
+    .btn-outline { background: transparent; color: var(--charcoal); border: 1.5px solid var(--light-gray); }
+    .btn-outline:hover { border-color: var(--charcoal); transform: translateY(-2px); }
+
+    .hero-stats {
+      display: flex; gap: 2.5rem; margin-top: 3.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--light-gray);
+    }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--black);
+    }
+    .stat-label { font-size: 0.8rem; color: var(--gray); margin-top: 0.1rem; }
+
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .hero-img-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 460px;
+    }
+    .hero-img-placeholder {
+      width: 100%;
+      aspect-ratio: 4/5;
+      background: var(--light-gray);
+      border-radius: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--gray);
+      font-size: 0.85rem;
+      gap: 0.75rem;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-img-placeholder img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 24px;
+      display: none; /* unhide when you add your photo */
+    }
+    .placeholder-icon { font-size: 2.5rem; opacity: 0.4; }
+    .placeholder-text { opacity: 0.5; font-size: 0.8rem; }
+
+    .hero-floating-card {
+      position: absolute;
+      background: var(--white);
+      border-radius: 16px;
+      padding: 1rem 1.25rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .card-bottom { bottom: -1.5rem; left: -2rem; }
+    .card-top { top: 2rem; right: -2rem; }
+    .card-icon { font-size: 1.5rem; }
+    .card-info { }
+    .card-info strong { font-size: 0.85rem; display: block; color: var(--black); }
+    .card-info span { font-size: 0.72rem; color: var(--gray); }
+
+    /* ── SECTION SHARED ── */
+    section { padding: 7rem 5vw; }
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      line-height: 1.15;
+      color: var(--black);
+      margin-bottom: 1.5rem;
+    }
+    .section-title em { font-style: italic; color: var(--accent); }
+    .section-desc {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--gray);
+      max-width: 560px;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      background: var(--white);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .about-img-wrap {
+      position: relative;
+    }
+    .about-img-placeholder {
+      width: 100%;
+      aspect-ratio: 1/1;
+      background: var(--accent-light);
+      border-radius: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: var(--accent);
+      overflow: hidden;
+    }
+    .about-img-placeholder img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 24px;
+      display: none;
+    }
+    .about-accent-box {
+      position: absolute;
+      bottom: -1.5rem; right: -1.5rem;
+      background: var(--green);
+      color: var(--white);
+      border-radius: 16px;
+      padding: 1.25rem 1.5rem;
+      font-size: 0.85rem;
+    }
+    .about-accent-box strong { font-family: var(--font-display); font-size: 1.5rem; display: block; }
+    .about-text {}
+    .about-tags {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      margin-top: 2rem;
+    }
+    .tag {
+      background: var(--accent-light);
+      color: var(--charcoal);
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+    }
+
+    /* ── SERVICES ── */
+    #services { background: var(--cream); }
+    .services-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3.5rem;
+      gap: 2rem;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .service-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 2.25rem;
+      transition: transform 0.25s, box-shadow 0.25s;
+      border: 1px solid var(--light-gray);
+    }
+    .service-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(0,0,0,0.08); }
+    .service-icon {
+      width: 52px; height: 52px;
+      background: var(--green-light);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .service-name {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      color: var(--black);
+      margin-bottom: 0.75rem;
+    }
+    .service-desc {
+      font-size: 0.88rem;
+      line-height: 1.75;
+      color: var(--gray);
+    }
+    .service-list {
+      margin-top: 1.25rem;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .service-list li {
+      font-size: 0.82rem;
+      color: var(--gray);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .service-list li::before { content: '→'; color: var(--accent); font-size: 0.75rem; }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--white); }
+    .projects-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3.5rem;
+      gap: 2rem;
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.75rem;
+    }
+    .project-card {
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--cream);
+      border: 1px solid var(--light-gray);
+      transition: transform 0.25s;
+    }
+    .project-card:hover { transform: translateY(-4px); }
+    .project-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--light-gray);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gray);
+      font-size: 0.8rem;
+      gap: 0.5rem;
+      overflow: hidden;
+      position: relative;
+    }
+    .project-img img {
+      width: 100%; height: 100%; object-fit: cover; display: none;
+    }
+    .project-img-inner {
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      opacity: 0.5;
+    }
+    .project-body { padding: 1.75rem; }
+    .project-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 0.5rem;
+    }
+    .project-name {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      color: var(--black);
+      margin-bottom: 0.65rem;
+    }
+    .project-desc {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: var(--gray);
+      margin-bottom: 1.25rem;
+    }
+    .project-meta {
+      display: flex;
+      gap: 1.25rem;
+    }
+    .meta-item { font-size: 0.78rem; color: var(--gray); }
+    .meta-item strong { color: var(--charcoal); }
+
+    /* ── TESTIMONIALS ── */
+    #testimonials {
+      background: var(--black);
+      color: var(--white);
+    }
+    #testimonials .section-label { color: var(--accent); }
+    #testimonials .section-title { color: var(--white); }
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+    .testi-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 2rem;
+    }
+    .testi-stars { color: var(--accent); font-size: 0.9rem; margin-bottom: 1.25rem; }
+    .testi-quote {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 1.75rem;
+      font-style: italic;
+    }
+    .testi-author { display: flex; align-items: center; gap: 0.85rem; }
+    .testi-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      overflow: hidden;
+    }
+    .testi-avatar img { width: 100%; height: 100%; object-fit: cover; display: none; }
+    .testi-name { font-weight: 600; font-size: 0.9rem; color: var(--white); }
+    .testi-role { font-size: 0.78rem; color: rgba(255,255,255,0.45); margin-top: 0.1rem; }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--cream);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    .contact-info {}
+    .contact-list { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .contact-icon {
+      width: 44px; height: 44px;
+      background: var(--white);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      border: 1px solid var(--light-gray);
+      flex-shrink: 0;
+    }
+    .contact-detail strong { display: block; font-size: 0.85rem; color: var(--charcoal); }
+    .contact-detail span { font-size: 0.8rem; color: var(--gray); }
+
+    .contact-form {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 2.5rem;
+      border: 1px solid var(--light-gray);
+    }
+    .form-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--black);
+      margin-bottom: 1.75rem;
+    }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--charcoal);
+      margin-bottom: 0.4rem;
+    }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border: 1.5px solid var(--light-gray);
+      border-radius: 10px;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--charcoal);
+      background: var(--cream);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+      border-color: var(--green);
+    }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .btn-full { width: 100%; justify-content: center; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--white);
+      padding: 2.5rem 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--light-gray);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--black);
+    }
+    .footer-copy { font-size: 0.8rem; color: var(--gray); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      font-size: 0.8rem;
+      color: var(--gray);
+      text-decoration: none;
+    }
+    .footer-links a:hover { color: var(--black); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.7s ease both; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      #hero { grid-template-columns: 1fr; padding-top: 7rem; }
+      .hero-visual { order: -1; }
+      .hero-img-wrap { max-width: 340px; margin: 0 auto; }
+      #about { grid-template-columns: 1fr; gap: 3rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .testi-grid { grid-template-columns: 1fr; }
+      #contact { grid-template-columns: 1fr; gap: 3rem; }
+      .services-header, .projects-header { flex-direction: column; align-items: flex-start; }
+      nav { padding: 1rem 4vw; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; }
+      .hero-stats { gap: 1.5rem; }
+      .card-top, .card-bottom { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a class="nav-logo" href="#hero">Your Name</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#testimonials">Testimonials</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-text">
+    <div class="hero-badge fade-up">Available for Projects</div>
+    <h1 class="hero-title fade-up delay-1">
+      Elevating <em>Food &amp; Beverage</em> Businesses
+    </h1>
+    <p class="hero-desc fade-up delay-2">
+      I help restaurants, cafes, and F&B brands grow through strategic consulting — from concept development and menu engineering to operations and profitability.
+    </p>
+    <div class="hero-actions fade-up delay-3">
+      <a href="#projects" class="btn btn-primary">View My Work</a>
+      <a href="#contact" class="btn btn-outline">Let's Talk →</a>
+    </div>
+    <div class="hero-stats fade-up delay-4">
+      <div>
+        <div class="stat-num">50+</div>
+        <div class="stat-label">Brands Consulted</div>
+      </div>
+      <div>
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div>
+        <div class="stat-num">98%</div>
+        <div class="stat-label">Client Satisfaction</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-visual fade-up delay-2">
+    <div class="hero-img-wrap">
+      <div class="hero-img-placeholder">
+        <!-- Replace the line below with: <img src="YOUR_PHOTO.jpg" alt="Your Name" style="display:block;"> -->
+        <img src="" alt="Your Photo"/>
+        <div class="placeholder-icon">🧑‍🍳</div>
+        <div class="placeholder-text">Replace with your photo</div>
+      </div>
+      <div class="hero-floating-card card-bottom">
+        <div class="card-icon">📈</div>
+        <div class="card-info">
+          <strong>Revenue Growth</strong>
+          <span>Avg. +35% for clients</span>
+        </div>
+      </div>
+      <div class="hero-floating-card card-top">
+        <div class="card-icon">🌟</div>
+        <div class="card-info">
+          <strong>5-Star Rated</strong>
+          <span>Across 30+ projects</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="about-img-wrap">
+    <div class="about-img-placeholder">
+      <!-- Replace the line below with: <img src="ABOUT_PHOTO.jpg" alt="About" style="display:block;"> -->
+      <img src="" alt="About Photo"/>
+      <div class="placeholder-icon" style="font-size:2.5rem;opacity:0.4;">🍽️</div>
+      <div style="font-size:0.8rem;opacity:0.5;">Replace with your photo</div>
+    </div>
+    <div class="about-accent-box">
+      <strong>10+</strong>
+      Years in F&amp;B Industry
+    </div>
+  </div>
+  <div class="about-text">
+    <div class="section-label">About Me</div>
+    <h2 class="section-title">Passionate about building <em>great</em> F&B brands</h2>
+    <p class="section-desc">
+      Replace this with your personal story. Tell your clients who you are, where you started, and what drives your passion for the food and beverage industry. Share your background, education, or key milestones that make you the consultant they need.
+    </p>
+    <p class="section-desc" style="margin-top:1rem;">
+      Add a second paragraph here about your philosophy, your approach to consulting, or a personal mission statement that resonates with the type of clients you want to attract.
+    </p>
+    <div class="about-tags">
+      <span class="tag">Menu Engineering</span>
+      <span class="tag">Brand Strategy</span>
+      <span class="tag">Kitchen Operations</span>
+      <span class="tag">Cost Control</span>
+      <span class="tag">Staff Training</span>
+      <span class="tag">Concept Development</span>
+      <span class="tag">F&B Marketing</span>
+      <span class="tag">Supplier Sourcing</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES ── -->
+<section id="services">
+  <div class="services-header">
+    <div>
+      <div class="section-label">What I Offer</div>
+      <h2 class="section-title">Services designed to<br/><em>grow your business</em></h2>
+    </div>
+    <p class="section-desc" style="max-width:320px;">
+      From start-up to scale-up, I offer end-to-end consulting tailored to your F&B goals.
+    </p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🧠</div>
+      <div class="service-name">Concept Development</div>
+      <div class="service-desc">Building your restaurant or cafe from the ground up — identity, concept, theme, and target market.</div>
+      <ul class="service-list">
+        <li>Brand Identity & Positioning</li>
+        <li>Interior Concept Direction</li>
+        <li>Target Market Analysis</li>
+      </ul>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📋</div>
+      <div class="service-name">Menu Engineering</div>
+      <div class="service-desc">Crafting menus that balance creativity, profitability, and customer experience.</div>
+      <ul class="service-list">
+        <li>Recipe Development & Costing</li>
+        <li>Menu Design Consulting</li>
+        <li>Pricing Strategy</li>
+      </ul>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">⚙️</div>
+      <div class="service-name">Operations Audit</div>
+      <div class="service-desc">Identifying inefficiencies and optimizing your workflow for maximum output.</div>
+      <ul class="service-list">
+        <li>SOP Creation & Review</li>
+        <li>Kitchen Flow Optimization</li>
+        <li>Waste Reduction Strategy</li>
+      </ul>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">💰</div>
+      <div class="service-name">Financial Consulting</div>
+      <div class="service-desc">Improving your bottom line through smart cost management and revenue strategies.</div>
+      <ul class="service-list">
+        <li>Food Cost Analysis</li>
+        <li>P&L Review</li>
+        <li>Profit Improvement Plan</li>
+      </ul>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">👥</div>
+      <div class="service-name">Team Training</div>
+      <div class="service-desc">Upskilling your front-of-house and back-of-house teams for consistent quality.</div>
+      <ul class="service-list">
+        <li>Service Standards Training</li>
+        <li>Kitchen Skills Workshop</li>
+        <li>Management Coaching</li>
+      </ul>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📣</div>
+      <div class="service-name">F&B Marketing</div>
+      <div class="service-desc">Growing your brand's visibility and attracting loyal customers through smart marketing.</div>
+      <ul class="service-list">
+        <li>Social Media Strategy</li>
+        <li>Promotion Planning</li>
+        <li>Influencer Partnerships</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <div class="projects-header">
+    <div>
+      <div class="section-label">Portfolio</div>
+      <h2 class="section-title">Projects I've <em>worked on</em></h2>
+    </div>
+    <a href="#contact" class="btn btn-outline">Start a Project →</a>
+  </div>
+  <div class="projects-grid">
+
+    <div class="project-card">
+      <div class="project-img">
+        <!-- Replace with: <img src="project1.jpg" style="display:block;"> -->
+        <img src="" alt="Project 1"/>
+        <div class="project-img-inner">
+          <span style="font-size:2rem;">🏪</span>
+          <span>Add project photo</span>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-tag">Restaurant Concept</div>
+        <div class="project-name">Project Name Here</div>
+        <div class="project-desc">Brief description of what you did for this client — the challenge, your approach, and the results you achieved together.</div>
+        <div class="project-meta">
+          <div class="meta-item"><strong>Location:</strong> Jakarta</div>
+          <div class="meta-item"><strong>Year:</strong> 2024</div>
+          <div class="meta-item"><strong>Result:</strong> +40% Revenue</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-img">
+        <img src="" alt="Project 2"/>
+        <div class="project-img-inner">
+          <span style="font-size:2rem;">☕</span>
+          <span>Add project photo</span>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-tag">Cafe Operations</div>
+        <div class="project-name">Project Name Here</div>
+        <div class="project-desc">Brief description of what you did for this client — the challenge, your approach, and the results you achieved together.</div>
+        <div class="project-meta">
+          <div class="meta-item"><strong>Location:</strong> Bali</div>
+          <div class="meta-item"><strong>Year:</strong> 2023</div>
+          <div class="meta-item"><strong>Result:</strong> Cost -25%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-img">
+        <img src="" alt="Project 3"/>
+        <div class="project-img-inner">
+          <span style="font-size:2rem;">🍜</span>
+          <span>Add project photo</span>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-tag">Menu Engineering</div>
+        <div class="project-name">Project Name Here</div>
+        <div class="project-desc">Brief description of what you did for this client — the challenge, your approach, and the results you achieved together.</div>
+        <div class="project-meta">
+          <div class="meta-item"><strong>Location:</strong> Surabaya</div>
+          <div class="meta-item"><strong>Year:</strong> 2023</div>
+          <div class="meta-item"><strong>Result:</strong> Menu Relaunched</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-img">
+        <img src="" alt="Project 4"/>
+        <div class="project-img-inner">
+          <span style="font-size:2rem;">🍹</span>
+          <span>Add project photo</span>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-tag">Brand Strategy</div>
+        <div class="project-name">Project Name Here</div>
+        <div class="project-desc">Brief description of what you did for this client — the challenge, your approach, and the results you achieved together.</div>
+        <div class="project-meta">
+          <div class="meta-item"><strong>Location:</strong> Bandung</div>
+          <div class="meta-item"><strong>Year:</strong> 2022</div>
+          <div class="meta-item"><strong>Result:</strong> 3 Outlets Opened</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ── -->
+<section id="testimonials">
+  <div class="section-label">Testimonials</div>
+  <h2 class="section-title">What my <em>clients</em> say</h2>
+  <div class="testi-grid">
+
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"Replace this with a real testimonial from one of your happy clients. Make it specific and authentic — results they got, what it felt like to work with you."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">
+          <img src="" alt="Client"/>
+          👤
+        </div>
+        <div>
+          <div class="testi-name">Client Name</div>
+          <div class="testi-role">Owner, Restaurant Name · Jakarta</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"Add another client testimonial here. Great testimonials focus on a specific result or transformation your client experienced after working with you."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">
+          <img src="" alt="Client"/>
+          👤
+        </div>
+        <div>
+          <div class="testi-name">Client Name</div>
+          <div class="testi-role">F&B Manager, Brand Name · Bali</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"A third testimonial here gives social proof and builds trust. Reach out to past clients and ask them to share a few sentences about their experience."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">
+          <img src="" alt="Client"/>
+          👤
+        </div>
+        <div>
+          <div class="testi-name">Client Name</div>
+          <div class="testi-role">Co-Founder, Cafe Name · Bandung</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="contact-info">
+    <div class="section-label">Get In Touch</div>
+    <h2 class="section-title">Let's work <em>together</em></h2>
+    <p class="section-desc">
+      Ready to take your F&B business to the next level? I'd love to hear about your challenges and goals. Let's start a conversation.
+    </p>
+    <div class="contact-list">
+      <div class="contact-item">
+        <div class="contact-icon">✉️</div>
+        <div class="contact-detail">
+          <strong>your@email.com</strong>
+          <span>Email me anytime</span>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📱</div>
+        <div class="contact-detail">
+          <strong>+62 XXX-XXXX-XXXX</strong>
+          <span>WhatsApp preferred</span>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div class="contact-detail">
+          <strong>Jakarta, Indonesia</strong>
+          <span>Available for travel across SEA</span>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">🔗</div>
+        <div class="contact-detail">
+          <strong>linkedin.com/in/yourname</strong>
+          <span>Connect with me</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-form">
+    <div class="form-title">Send me a message</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" placeholder="John Doe"/>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="john@example.com"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Business Type</label>
+      <select>
+        <option value="">Select your business...</option>
+        <option>Restaurant</option>
+        <option>Cafe / Coffee Shop</option>
+        <option>Hotel F&B</option>
+        <option>Cloud Kitchen</option>
+        <option>Food Brand / FMCG</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>What can I help you with?</label>
+      <textarea placeholder="Tell me about your business challenge or what you're looking to achieve..."></textarea>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="alert('Form submitted! (Connect this to Formspree or EmailJS to make it functional)')">
+      Send Message →
+    </button>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">Your Name</div>
+  <div class="footer-copy">© 2025 · FnB Consultant · All rights reserved</div>
+  <div class="footer-links">
+    <a href="#hero">Home</a>
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>
